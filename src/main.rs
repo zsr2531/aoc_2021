@@ -37,14 +37,14 @@ fn read_input(path: &str) -> String {
 }
 
 fn main() {
-    let args = args().collect::<Vec<String>>();
+    let args = args().skip(1).collect::<Vec<String>>();
     let solutions = vec![Box::new(day1::Day1)];
     let day = get_day(solutions.len()) - 1;
     let day = &solutions[day];
 
     println!("=============");
 
-    if let [_, first, second] = &args[..] {
+    if let [first, second] = &args[..] {
         let (part1, part2) = (read_input(first), read_input(second));
 
         println!("Part 1");
@@ -53,7 +53,7 @@ fn main() {
         println!("=============");
         println!("Part 2");
         day.part2(&part2);
-    } else if let [_, first] = &args[..] {
+    } else if let [first] = &args[..] {
         let part1 = read_input(first);
 
         println!("Part 1");
