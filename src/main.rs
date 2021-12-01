@@ -4,7 +4,6 @@ mod day1;
 
 pub trait Solution {
     fn part1(&self, input: &str) -> i64;
-
     fn part2(&self, input: &str) -> i64;
 }
 
@@ -47,12 +46,16 @@ macro_rules! benchmark {
 }
 
 fn main() {
-    let args = args().skip(1).collect::<Vec<String>>();
+    let args = args().collect::<Vec<String>>();
+    if args.len() < 2 {
+        return eprintln!("Usage: {} <input1> <input2>", args[0]);
+    }
+
     let solutions = vec![Box::new(day1::Day1)];
     let day = get_day(solutions.len()) - 1;
     let day = &solutions[day];
 
-    match &args[..] {
+    match &args[1..] {
         [first] => {
             let part1 = read_input(first);
 
@@ -68,6 +71,6 @@ fn main() {
             println!("==== PART 2 ====");
             benchmark!(day.part2(&part2));
         }
-        _ => eprintln!("Please provide the path to the input file via cmd args")
+        _ => unreachable!()
     }
 }
