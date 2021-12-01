@@ -1,11 +1,11 @@
-use std::{io::{stdin, BufRead, Read}, env::args, fs::File};
+use std::{io::{stdin, BufRead, Read}, env::args, fs::File, time::Instant};
 
 mod day1;
 
 pub trait Solution {
-    fn part1(&self, input: &str);
+    fn part1(&self, input: &str) -> i64;
 
-    fn part2(&self, input: &str);
+    fn part2(&self, input: &str) -> i64;
 }
 
 fn get_day(max: usize) -> usize {
@@ -36,28 +36,42 @@ fn read_input(path: &str) -> String {
     buf
 }
 
+macro_rules! benchmark {
+    ($code:expr) => {
+        let start = Instant::now();
+        let result = $code;
+        let end = Instant::now();
+
+        println!("Solution: {}", result);
+        println!("Took {:?}", end - start);
+    };
+}
+
 fn main() {
     let args = args().skip(1).collect::<Vec<String>>();
     let solutions = vec![Box::new(day1::Day1)];
     let day = get_day(solutions.len()) - 1;
     let day = &solutions[day];
 
-    println!("=============");
-
     if let [first, second] = &args[..] {
         let (part1, part2) = (read_input(first), read_input(second));
 
-        println!("Part 1");
-        day.part1(&part1);
+        println!("==== PART 1 ====");
+        benchmark!({
+            day.part1(&part1)
+        });
 
-        println!("=============");
-        println!("Part 2");
-        day.part2(&part2);
+        println!("==== PART 2 ====");
+        benchmark!({
+            day.part2(&part2)
+        });
     } else if let [first] = &args[..] {
         let part1 = read_input(first);
 
-        println!("Part 1");
-        day.part1(&part1);
+        println!("==== PART 1 ====");
+        benchmark!({
+            day.part1(&part1)
+        });
     } else {
         eprintln!("Please provide the path to the input file via cmd args");
     }
