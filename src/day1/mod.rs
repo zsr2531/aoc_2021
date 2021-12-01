@@ -9,15 +9,11 @@ impl Solution for Day1 {
             .map(|l| l.parse::<i32>().unwrap())
             .collect();
 
-        let mut increments = 0;
-
-        for i in 1..lines.len() {
-            if lines[i - 1] < lines[i] {
-                increments += 1;
-            }
-        }
-
-        increments
+        lines
+            .iter()
+            .zip(lines.iter().skip(1))
+            .filter(|(x, y)| x < y)
+            .count() as i64
     }
 
     fn part2(&self, input: &str) -> i64 {
@@ -26,26 +22,10 @@ impl Solution for Day1 {
             .map(|l| l.parse::<i32>().unwrap())
             .collect();
             
-        let mut windows: Vec<i32> = Vec::new();
-
-        for i in 0..lines.len() - 2 {
-            let mut buffer = [0; 3];
-
-            for j in i..i + 3 {
-                buffer[j - i] = lines[j];
-            }
-
-            windows.push(buffer.iter().sum());
-        }
-
-        let mut increments = 0;
-
-        for i in 1..windows.len() {
-            if windows[i - 1] < windows[i] {
-                increments += 1;
-            }
-        }
-
-        increments
+        lines
+            .iter()
+            .zip(lines.iter().skip(3))
+            .filter(|(x, y)| x < y)
+            .count() as i64
     }
 }
