@@ -17,10 +17,9 @@ fn get_day(max: usize) -> usize {
             .read_line(&mut choice)
             .expect("stdin unavailable");
 
-        if let Ok(num) = choice[..1].parse::<usize>() {
-            if num <= max {
-                return num;
-            }
+        match choice[..1].parse::<usize>() {
+            Ok(num) if num <= max => return num,
+            _ => ()
         }
     }
 }
@@ -53,26 +52,22 @@ fn main() {
     let day = get_day(solutions.len()) - 1;
     let day = &solutions[day];
 
-    if let [first, second] = &args[..] {
-        let (part1, part2) = (read_input(first), read_input(second));
+    match &args[..] {
+        [first] => {
+            let part1 = read_input(first);
 
-        println!("==== PART 1 ====");
-        benchmark!({
-            day.part1(&part1)
-        });
+            println!("==== PART 1 ====");
+            benchmark!(day.part1(&part1));
+        }
+        [first, second] => {
+            let (part1, part2) = (read_input(first), read_input(second));
 
-        println!("==== PART 2 ====");
-        benchmark!({
-            day.part2(&part2)
-        });
-    } else if let [first] = &args[..] {
-        let part1 = read_input(first);
+            println!("==== PART 1 ====");
+            benchmark!(day.part1(&part1));
 
-        println!("==== PART 1 ====");
-        benchmark!({
-            day.part1(&part1)
-        });
-    } else {
-        eprintln!("Please provide the path to the input file via cmd args");
+            println!("==== PART 2 ====");
+            benchmark!(day.part2(&part2));
+        }
+        _ => eprintln!("Please provide the path to the input file via cmd args")
     }
 }
