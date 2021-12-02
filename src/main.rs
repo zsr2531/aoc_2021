@@ -1,12 +1,10 @@
 use std::{io::{stdin, BufRead, Read}, env::args, fs::File, time::Instant};
 
+mod common;
+use common::Solver;
+
 mod day1;
 mod day2;
-
-pub trait Solution {
-    fn part1(&self, input: &str) -> i64;
-    fn part2(&self, input: &str) -> i64;
-}
 
 fn get_day(max: usize) -> usize {
     loop {
@@ -58,7 +56,7 @@ fn main() {
         return eprintln!("Usage: {} <input1> <input2>", args[0]);
     }
 
-    let solutions: Vec<Box<dyn Solution>> = pack![day1::Day1, day2::Day2];
+    let solutions: Vec<Box<dyn Solver>> = pack![day1::Day1, day2::Day2];
     let day = get_day(solutions.len()) - 1;
     let day = &solutions[day];
 

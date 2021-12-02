@@ -1,9 +1,9 @@
-use super::Solution;
+use crate::common::*;
 
 pub struct Day2;
 
-impl Solution for Day2 {
-    fn part1(&self, input: &str) -> i64 {
+impl Solver for Day2 {
+    fn part1(&self, input: &str) -> Solution {
         let (x, y) = input
             .lines()
             .fold((0 as i64, 0 as i64), |(dir, depth), l| {
@@ -18,10 +18,10 @@ impl Solution for Day2 {
                 }
             });
 
-        x * y
+        (x * y).into()
     }
 
-    fn part2(&self, input: &str) -> i64 {
+    fn part2(&self, input: &str) -> Solution {
         let (x, y, _) = input
             .lines()
             .fold((0 as i64, 0 as i64, 0 as i64), |(dir, depth, aim), l| {
@@ -36,6 +36,6 @@ impl Solution for Day2 {
                 }
             });
 
-        x * y
+        (x * y).into()
     }
 }
