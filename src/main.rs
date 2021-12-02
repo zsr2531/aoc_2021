@@ -1,4 +1,4 @@
-use std::{io::{stdin, BufRead, Read}, env::args, fs::File, time::Instant};
+use std::{io::{stdin, BufRead, Read}, env::args, fs::File, time::{Duration, Instant}};
 
 mod common;
 use common::Solver;
@@ -41,12 +41,18 @@ macro_rules! pack {
 
 macro_rules! benchmark {
     ($code:expr) => {
-        let start = Instant::now();
         let result = $code;
-        let end = Instant::now();
+        let mut sum = Duration::new(0, 0);
+
+        for _ in 0..1000 {
+            let start = Instant::now();
+            $code;
+            let end = Instant::now();
+            sum += (end - start);
+        }
 
         println!("Solution: {}", result);
-        println!("Took {:?}", end - start);
+        println!("Time: {:?}", sum / 1000);
     };
 }
 
