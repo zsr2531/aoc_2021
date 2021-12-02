@@ -6,7 +6,7 @@ impl Solver for Day2 {
     fn part1(&self, input: &str) -> Solution {
         let (x, y) = input
             .lines()
-            .fold((0 as u64, 0 as u64), |(hor, dep), l| {
+            .fold::<(u64, u64), _>((0, 0), |(hor, dep), l| {
                 let mut chars = l.chars();
                 let (dir, units) = (chars.nth(0).unwrap(), chars.nth_back(0).unwrap() as u8 - '0' as u8);
                 let units = units as u64;
@@ -24,7 +24,7 @@ impl Solver for Day2 {
     fn part2(&self, input: &str) -> Solution {
         let (x, y, _) = input
             .lines()
-            .fold((0 as u64, 0 as u64, 0 as u64), |(hor, dep, aim), l| {
+            .fold::<(u64, u64, u64), _>((0, 0, 0), |(hor, dep, aim), l| {
                 let mut chars = l.chars();
                 let (dir, units) = (chars.nth(0).unwrap(), chars.nth_back(0).unwrap() as u8 - '0' as u8);
                 let units = units as u64;
