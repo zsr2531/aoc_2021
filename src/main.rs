@@ -1,6 +1,7 @@
 use std::{io::{stdin, BufRead, Read}, env::args, fs::File, time::Instant};
 
 mod day1;
+mod day2;
 
 pub trait Solution {
     fn part1(&self, input: &str) -> i64;
@@ -34,6 +35,12 @@ fn read_input(path: &str) -> String {
     buf
 }
 
+macro_rules! pack {
+    ($($code:expr),+) => {
+        vec![$(Box::new($code)),+]
+    };
+}
+
 macro_rules! benchmark {
     ($code:expr) => {
         let start = Instant::now();
@@ -51,7 +58,7 @@ fn main() {
         return eprintln!("Usage: {} <input1> <input2>", args[0]);
     }
 
-    let solutions = vec![Box::new(day1::Day1)];
+    let solutions: Vec<Box<dyn Solution>> = pack![day1::Day1, day2::Day2];
     let day = get_day(solutions.len()) - 1;
     let day = &solutions[day];
 
@@ -71,6 +78,6 @@ fn main() {
             println!("==== PART 2 ====");
             benchmark!(day.part2(&part2));
         }
-        _ => unreachable!()
+        _ => eprintln!("Usage: {} <input1> <input2>", args[0])
     }
 }
