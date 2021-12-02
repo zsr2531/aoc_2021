@@ -6,14 +6,14 @@ impl Solver for Day2 {
     fn part1(&self, input: &str) -> Solution {
         let (x, y) = input
             .lines()
-            .fold((0 as i64, 0 as i64), |(dir, depth), l| {
+            .fold((0 as i64, 0 as i64), |(hor, dep), l| {
                 let mut chars = l.chars();
-                let (d, u) = (chars.nth(0).unwrap(), chars.nth_back(0).unwrap() as u8 - '0' as u8);
-                let u = u as i64;
-                match d {
-                    'f' => (dir + u, depth),
-                    'u' => (dir, depth - u),
-                    'd' => (dir, depth + u),
+                let (dir, units) = (chars.nth(0).unwrap(), chars.nth_back(0).unwrap() as u8 - '0' as u8);
+                let units = units as i64;
+                match dir {
+                    'f' => (hor + units, dep),
+                    'u' => (hor, dep - units),
+                    'd' => (hor, dep + units),
                     _ => unreachable!()
                 }
             });
@@ -24,14 +24,14 @@ impl Solver for Day2 {
     fn part2(&self, input: &str) -> Solution {
         let (x, y, _) = input
             .lines()
-            .fold((0 as i64, 0 as i64, 0 as i64), |(dir, depth, aim), l| {
+            .fold((0 as i64, 0 as i64, 0 as i64), |(hor, dep, aim), l| {
                 let mut chars = l.chars();
-                let (d, u) = (chars.nth(0).unwrap(), chars.nth_back(0).unwrap() as u8 - '0' as u8);
-                let u = u as i64;
-                match d {
-                    'f' => (dir + u, depth + aim * u, aim),
-                    'u' => (dir, depth, aim - u),
-                    'd' => (dir, depth, aim + u),
+                let (dir, units) = (chars.nth(0).unwrap(), chars.nth_back(0).unwrap() as u8 - '0' as u8);
+                let units = units as i64;
+                match dir {
+                    'f' => (hor + units, dep + aim * units, aim),
+                    'u' => (hor, dep, aim - units),
+                    'd' => (hor, dep, aim + units),
                     _ => unreachable!()
                 }
             });
