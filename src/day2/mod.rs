@@ -6,38 +6,36 @@ impl Solution for Day2 {
     fn part1(&self, input: &str) -> i64 {
         let (x, y) = input
             .lines()
-            .fold((0, 0), |(dir, depth), l| {
-                let mut s = l.split(' ');
-                let (direction, distance) = (s.next(), s.next());
-                let (direction, distance) = (direction.unwrap(), distance.unwrap().parse::<i32>().unwrap());
-
-                match direction {
-                    "forward" => (dir + distance, depth),
-                    "up" => (dir, depth - distance),
-                    "down" => (dir, depth + distance),
+            .fold((0 as i64, 0 as i64), |(dir, depth), l| {
+                let mut chars = l.chars();
+                let (d, u) = (chars.nth(0).unwrap(), chars.nth_back(0).unwrap() as u8 - '0' as u8);
+                let u = u as i64;
+                match d {
+                    'f' => (dir + u, depth),
+                    'u' => (dir, depth - u),
+                    'd' => (dir, depth + u),
                     _ => unreachable!()
                 }
             });
 
-        (x * y) as i64
+        x * y
     }
 
     fn part2(&self, input: &str) -> i64 {
         let (x, y, _) = input
             .lines()
-            .fold((0, 0, 0), |(dir, depth, aim), l| {
-                let mut s = l.split(' ');
-                let (direction, distance) = (s.next(), s.next());
-                let (direction, distance) = (direction.unwrap(), distance.unwrap().parse::<i32>().unwrap());
-
-                match direction {
-                    "forward" => (dir + distance, depth + aim * distance, aim),
-                    "up" => (dir, depth, aim - distance),
-                    "down" => (dir, depth, aim + distance),
+            .fold((0 as i64, 0 as i64, 0 as i64), |(dir, depth, aim), l| {
+                let mut chars = l.chars();
+                let (d, u) = (chars.nth(0).unwrap(), chars.nth_back(0).unwrap() as u8 - '0' as u8);
+                let u = u as i64;
+                match d {
+                    'f' => (dir + u, depth + aim * u, aim),
+                    'u' => (dir, depth, aim - u),
+                    'd' => (dir, depth, aim + u),
                     _ => unreachable!()
                 }
             });
 
-        (x * y) as i64
+        x * y
     }
 }
