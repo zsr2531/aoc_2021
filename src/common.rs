@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use std::fmt::{self, Display, Formatter};
 
 #[derive(Debug, Clone, Copy)]
 pub enum Solution {
@@ -11,8 +11,12 @@ pub trait Solver {
     fn part2(&self, input: &str) -> Solution;
 }
 
+pub fn error(msg: &str) -> ! {
+    panic!("Something went wrong (maybe you loaded the wrong day?): {}", msg)
+}
+
 impl Display for Solution {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
             Solution::Signed(x) => f.write_fmt(format_args!("{}", x)),
             Solution::Unsigned(x) => f.write_fmt(format_args!("{}", x))
