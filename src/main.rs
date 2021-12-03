@@ -45,7 +45,7 @@ macro_rules! benchmark {
         let result = $code;
         let mut sum = Duration::new(0, 0);
 
-        for _ in 0..1000 {
+        for _ in 0..10000 {
             let start = Instant::now();
             $code;
             let end = Instant::now();
@@ -53,7 +53,7 @@ macro_rules! benchmark {
         }
 
         println!("Solution: {}", result);
-        println!("Time: {:?}", sum / 1000);
+        println!("Time: {:?}", sum / 10000);
     };
 }
 
