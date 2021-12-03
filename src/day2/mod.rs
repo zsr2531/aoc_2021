@@ -7,9 +7,9 @@ impl Solver for Day2 {
         let (x, y) = input
             .lines()
             .fold::<(u64, u64), _>((0, 0), |(hor, dep), l| {
-                let mut chars = l.chars();
-                let (dir, units) = (chars.nth(0).unwrap(), chars.nth_back(0).unwrap() as u8 - '0' as u8);
-                let units = units as u64;
+                let chars = l.as_bytes();
+                let (dir, units) = (chars[0] as char, chars.last().unwrap());
+                let units = *units as u64;
                 match dir {
                     'f' => (hor + units, dep),
                     'u' => (hor, dep - units),
