@@ -6,12 +6,13 @@ fn parse_binary_number(raw: &str) -> usize {
     let length = raw.len();
 
     raw
-        .chars()
+        .as_bytes()
+        .iter()
         .enumerate()
         .fold(0, |num, (idx, c)| {
-            match c {
-                '0' => num,
-                '1' => num | (1 << (length - idx - 1)),
+            match *c {
+                48 => num,
+                49 => num | (1 << (length - idx - 1)),
                 _ => error(&format!("not a binary digit: {}", c))
             }
         })
