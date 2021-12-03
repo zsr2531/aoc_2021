@@ -5,6 +5,7 @@ use common::Solver;
 
 mod day1;
 mod day2;
+mod day3;
 
 fn get_day(max: usize) -> usize {
     loop {
@@ -62,7 +63,7 @@ fn main() {
         return eprintln!("Usage: {} <input1> <input2>", args[0]);
     }
 
-    let solutions: Vec<Box<dyn Solver>> = pack![day1::Day1, day2::Day2];
+    let solutions: Vec<Box<dyn Solver>> = pack![day1::Day1, day2::Day2, day3::Day3];
     let day = get_day(solutions.len()) - 1;
     let day = &solutions[day];
 
