@@ -19,13 +19,13 @@ fn parse_binary_number(raw: &str) -> usize {
 
 impl Solver for Day3 {
     fn part1(&self, input: &str) -> Solution {
-        let length = input.find('\n').unwrap() - 1;
+        let length = input.find(|c| { c == '\r' || c == '\n'}).unwrap();
         let mask = usize::MAX >> (64 - length);
         let numbers: Vec<usize> = input
             .lines()
             .map(|l| parse_binary_number(l))
             .collect();
-        
+
         let gamma = (0..length)
             .fold(0_usize, |num, idx| {
                 let ones = numbers
