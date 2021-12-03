@@ -2,29 +2,13 @@ use crate::common::*;
 
 pub struct Day3;
 
-fn parse_binary_number(raw: &str) -> usize {
-    let length = raw.len();
-
-    raw
-        .as_bytes()
-        .iter()
-        .enumerate()
-        .fold(0, |num, (idx, c)| {
-            match *c {
-                48 => num,
-                49 => num | (1 << (length - idx - 1)),
-                _ => error(&format!("not a binary digit: {}", c))
-            }
-        })
-}
-
 impl Solver for Day3 {
     fn part1(&self, input: &str) -> Solution {
         let digits = input.find(|c| { c == '\r' || c == '\n'}).unwrap();
         let mask = usize::MAX >> (64 - digits);
         let numbers: Vec<usize> = input
             .lines()
-            .map(|l| parse_binary_number(l))
+            .map(|l| usize::from_str_radix(l, 2).unwrap())
             .collect();
         let threshold = numbers.len() / 2;
 
@@ -49,7 +33,7 @@ impl Solver for Day3 {
         let digits = input.find(|c| { c == '\r' || c == '\n'}).unwrap();
         let numbers: Vec<usize> = input
             .lines()
-            .map(|l| parse_binary_number(l))
+            .map(|l| usize::from_str_radix(l, 2).unwrap())
             .collect();
 
         let (mut oxygen, mut co2) = (numbers.clone(), numbers.clone());
