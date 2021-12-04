@@ -61,8 +61,8 @@ macro_rules! benchmark {
         println!("{} took: {:?}", $msg, sum / 10000);
     };
     ($year:ty, $day:ty, $input:expr) => {
-        benchmark!("Parse part 1", { <$year as ParsePartInput<$day, Part1>>::parse($input); });
-        benchmark!("Parse part 2", { <$year as ParsePartInput<$day, Part2>>::parse($input); });
+        benchmark!("Parsing part 1", { <$year as ParsePartInput<$day, Part1>>::parse($input); });
+        benchmark!("Parsing part 2", { <$year as ParsePartInput<$day, Part2>>::parse($input); });
         let input1 = <$year as ParsePartInput<$day, Part1>>::parse($input);
         let input2 = <$year as ParsePartInput<$day, Part2>>::parse($input);
         benchmark!("Solving part 1", { <$year as Solution<$day>>::part1(&input1); });
@@ -85,6 +85,7 @@ fn run_day(day: usize, input: &str) {
         1 => run2021!(Day1, input),
         2 => run2021!(Day2, input),
         3 => run2021!(Day3, input),
+        4 => run2021!(Day4, input),
         _ => unreachable!()
     }
 }
@@ -96,6 +97,6 @@ fn main() {
     }
 
     let input = read_input(&args[1]);
-    let day = get_day(3);
+    let day = get_day(4);
     run_day(day, &input);
 }
