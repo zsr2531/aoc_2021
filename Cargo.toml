@@ -6,3 +6,24 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+[dev-dependencies]
+# Disables stupid warnings
+criterion = { version = "0.3", features = ["html_reports"] }
+
+# TODO: Maybe make this less of a mouthful?
+[[bench]]
+name = "day1"
+harness = false
+
+[[bench]]
+name = "day2"
+harness = false
+
+[[bench]]
+name = "day3"
+harness = false
+
+[[bench]]
+name = "day4"
+harness = false
