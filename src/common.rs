@@ -8,6 +8,7 @@ pub const Part2: u8 = 2;
 pub const Day1: u8 = 1;
 pub const Day2: u8 = 2;
 pub const Day3: u8 = 3;
+pub const Day4: u8 = 4;
 
 pub struct AdventOfCode2021;
 
