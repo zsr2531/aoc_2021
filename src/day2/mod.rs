@@ -1,41 +1,57 @@
 use crate::common::*;
 
-pub struct Day2;
+pub enum Command {
+    Forward(isize),
+    Up(isize),
+    Down(isize)
+}
 
-impl Solver for Day2 {
-    fn part1(&self, input: &str) -> Solution {
-        let (x, y) = input
-            .lines()
-            .fold::<(u64, u64), _>((0, 0), |(hor, dep), l| {
-                let chars = l.as_bytes();
-                let (dir, units) = (chars[0] as char, chars.last().unwrap());
-                let units = *units as u64;
-                match dir {
-                    'f' => (hor + units, dep),
-                    'u' => (hor, dep - units),
-                    'd' => (hor, dep + units),
-                    _ => error(&format!("Unknown command '{}'", l))
-                }
-            });
+impl Solution<Day2> for AdventOfCode2021 {
+    type Part1Out = isize;
+    type Part2Out = isize;
 
-        (x * y).into()
+    fn part1(input: &Vec<Command>) -> Self::Part1Out {
+        let (hor, dep) = input.iter().fold((0, 0), |(hor, dep), c| {
+            match c {
+                Command::Forward(units) => (hor + units, dep),
+                Command::Up(units) => (hor, dep - units),
+                Command::Down(units) => (hor, dep + units),
+            }
+        });
+
+        hor * dep
     }
 
-    fn part2(&self, input: &str) -> Solution {
-        let (x, y, _) = input
-            .lines()
-            .fold::<(u64, u64, u64), _>((0, 0, 0), |(hor, dep, aim), l| {
-                let mut chars = l.chars();
-                let (dir, units) = (chars.nth(0).unwrap(), chars.nth_back(0).unwrap() as u8 - '0' as u8);
-                let units = units as u64;
-                match dir {
-                    'f' => (hor + units, dep + aim * units, aim),
-                    'u' => (hor, dep, aim - units),
-                    'd' => (hor, dep, aim + units),
-                    _ => error(&format!("Unknown command '{}'", l))
-                }
-            });
+    fn part2(input: &Vec<Command>) -> Self::Part2Out {
+        let (hor, dep, _) = input.iter().fold((0, 0, 0), |(hor, dep, aim), c| {
+            match c {
+                Command::Forward(units) => (hor + units, dep + aim * units, aim),
+                Command::Up(units) => (hor, dep, aim - units),
+                Command::Down(units) => (hor, dep, aim + units),
+            }
+        });
 
-        (x * y).into()
+        hor * dep
+    }
+}
+
+impl ParseInput<Day2> for AdventOfCode2021 {
+    type Parsed = Vec<Command>;
+
+    fn parse(input: &str) -> Self::Parsed {
+        input
+            .lines()
+            .map(|l| {
+                let bytes = l.as_bytes();
+                let (dir, units) = (bytes[0] as char, bytes.last().unwrap());
+                let units = (units - 48) as isize;
+                match dir {
+                    'f' => Command::Forward(units),
+                    'u' => Command::Up(units),
+                    'd' => Command::Down(units),
+                    _ => unreachable!(&format!("Unknown command '{}'", l))
+                }
+            })
+            .collect()
     }
 }

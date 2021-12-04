@@ -1,43 +1,51 @@
-use std::fmt::{self, Display, Formatter};
+#![allow(non_upper_case_globals)]
 
-#[derive(Debug, Clone, Copy)]
-pub enum Solution {
-    Signed(i64),
-    Unsigned(u64)
+use std::fmt::Display;
+
+pub const Part1: u8 = 1;
+pub const Part2: u8 = 2;
+
+pub const Day1: u8 = 1;
+pub const Day2: u8 = 2;
+pub const Day3: u8 = 3;
+
+pub struct AdventOfCode2021;
+
+pub trait ParsePartInput<const Day: u8, const Part: u8> {
+    type Parsed;
+
+    fn parse(input: &str) -> Self::Parsed;
 }
 
-pub trait Solver {
-    fn part1(&self, input: &str) -> Solution;
-    fn part2(&self, input: &str) -> Solution;
+pub trait ParseInput<const Day: u8> {
+    type Parsed;
+
+    fn parse(input: &str) -> Self::Parsed;
 }
 
-pub fn error(msg: &str) -> ! {
-    panic!("Something went wrong (maybe you loaded the wrong day?): {}", msg)
+pub trait Solution<const Day: u8>
+where Self: ParsePartInput<Day, Part1> + ParsePartInput<Day, Part2> {
+    type Part1Out: Display;
+    type Part2Out: Display;
+
+    fn part1(input: &<Self as ParsePartInput<Day, Part1>>::Parsed) -> Self::Part1Out;
+    fn part2(input: &<Self as ParsePartInput<Day, Part2>>::Parsed) -> Self::Part2Out;
 }
 
-impl Display for Solution {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        match self {
-            Solution::Signed(x) => f.write_fmt(format_args!("{}", x)),
-            Solution::Unsigned(x) => f.write_fmt(format_args!("{}", x))
-        }
+impl<T, const Day: u8> ParsePartInput<Day, Part1> for T
+where T: ParseInput<Day> {
+    type Parsed = T::Parsed;
+
+    fn parse(input: &str) -> Self::Parsed {
+        <Self as ParseInput<Day>>::parse(input)
     }
 }
 
-impl From<i64> for Solution {
-    fn from(x: i64) -> Self {
-        Solution::Signed(x)
-    }
-}
+impl<T, const Day: u8> ParsePartInput<Day, Part2> for T
+where T: ParseInput<Day> {
+    type Parsed = T::Parsed;
 
-impl From<u64> for Solution {
-    fn from(x: u64) -> Self {
-        Solution::Unsigned(x)
-    }
-}
-
-impl From<usize> for Solution {
-    fn from(x: usize) -> Self {
-        Solution::Unsigned(x as u64)
+    fn parse(input: &str) -> Self::Parsed {
+        <Self as ParseInput<Day>>::parse(input)
     }
 }

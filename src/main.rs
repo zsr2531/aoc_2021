@@ -1,7 +1,7 @@
 use std::{io::{stdin, BufRead, Read}, env::args, fs::File, time::{Duration, Instant}};
 
 mod common;
-use common::Solver;
+use common::*;
 
 mod day1;
 mod day2;
@@ -34,55 +34,67 @@ fn read_input(path: &str) -> String {
     buf
 }
 
-macro_rules! pack {
-    ($($code:expr),+) => {
-        vec![$(Box::new($code)),+]
+macro_rules! run {
+    ($year:ty, $day:ty, $input:expr) => {
+        {
+            let input1 = <$year as ParsePartInput<$day, 1>>::parse($input);
+            let input2 = <$year as ParsePartInput<$day, 2>>::parse($input);
+            let part1 = <$year as Solution<$day>>::part1(&input1);
+            let part2 = <$year as Solution<$day>>::part2(&input2);
+
+            (part1, part2)
+        }
     };
 }
 
 macro_rules! benchmark {
-    ($code:expr) => {
-        let result = $code;
+    ($msg:literal, $code:expr) => {
         let mut sum = Duration::new(0, 0);
 
         for _ in 0..10000 {
             let start = Instant::now();
-            $code;
-            let end = Instant::now();
-            sum += (end - start);
+            $code
+            sum += start.elapsed();
         }
 
-        println!("Solution: {}", result);
-        println!("Time: {:?}", sum / 10000);
+        println!("{} took: {:?}", $msg, sum / 10000);
     };
+    ($year:ty, $day:ty, $input:expr) => {
+        benchmark!("Parse part 1", { <$year as ParsePartInput<$day, Part1>>::parse($input); });
+        benchmark!("Parse part 2", { <$year as ParsePartInput<$day, Part2>>::parse($input); });
+        let input1 = <$year as ParsePartInput<$day, Part1>>::parse($input);
+        let input2 = <$year as ParsePartInput<$day, Part2>>::parse($input);
+        benchmark!("Solving part 1", { <$year as Solution<$day>>::part1(&input1); });
+        benchmark!("Solving part 2", { <$year as Solution<$day>>::part2(&input2); });
+    };
+}
+
+macro_rules! run2021 {
+    ($day:ty, $input:expr) => {
+        {
+            let (sol1, sol2) = run!(AdventOfCode2021, $day, $input);
+            println!("Part 1: {}\nPart 2: {}", sol1, sol2);
+            benchmark!(AdventOfCode2021, $day, $input);
+        }
+    };
+}
+
+fn run_day(day: usize, input: &str) {
+    match day {
+        1 => run2021!(Day1, input),
+        2 => run2021!(Day2, input),
+        3 => run2021!(Day3, input),
+        _ => unreachable!()
+    }
 }
 
 fn main() {
     let args = args().collect::<Vec<String>>();
-    if args.len() < 2 {
+    if args.len() != 2 {
         return eprintln!("Usage: {} <input1> <input2>", args[0]);
     }
 
-    let solutions: Vec<Box<dyn Solver>> = pack![day1::Day1, day2::Day2, day3::Day3];
-    let day = get_day(solutions.len()) - 1;
-    let day = &solutions[day];
-
-    match &args[1..] {
-        [first] => {
-            let part1 = read_input(first);
-
-            println!("==== PART 1 ====");
-            benchmark!(day.part1(&part1));
-        }
-        [first, second] => {
-            let (part1, part2) = (read_input(first), read_input(second));
-
-            println!("==== PART 1 ====");
-            benchmark!(day.part1(&part1));
-
-            println!("==== PART 2 ====");
-            benchmark!(day.part2(&part2));
-        }
-        _ => eprintln!("Usage: {} <input1> <input2>", args[0])
-    }
+    let input = read_input(&args[1]);
+    let day = get_day(3);
+    run_day(day, &input);
 }
