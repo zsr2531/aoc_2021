@@ -1,4 +1,4 @@
-use std::{io::{stdin, BufRead, Read}, env::args, fs::File, time::{Duration, Instant}};
+use std::{io::{stdin, BufRead, Read}, env::args, fs::File};
 
 mod common;
 use common::*;
@@ -36,56 +36,23 @@ fn read_input(path: &str) -> String {
 }
 
 macro_rules! run {
-    ($year:ty, $day:ty, $input:expr) => {
-        {
-            let input1 = <$year as ParsePartInput<$day, 1>>::parse($input);
-            let input2 = <$year as ParsePartInput<$day, 2>>::parse($input);
-            let part1 = <$year as Solution<$day>>::part1(&input1);
-            let part2 = <$year as Solution<$day>>::part2(&input2);
-
-            (part1, part2)
-        }
-    };
-}
-
-macro_rules! benchmark {
-    ($msg:literal, $code:expr) => {
-        let mut sum = Duration::new(0, 0);
-
-        for _ in 0..10000 {
-            let start = Instant::now();
-            $code
-            sum += start.elapsed();
-        }
-
-        println!("{} took: {:?}", $msg, sum / 10000);
-    };
-    ($year:ty, $day:ty, $input:expr) => {
-        benchmark!("Parsing part 1", { <$year as ParsePartInput<$day, Part1>>::parse($input); });
-        benchmark!("Parsing part 2", { <$year as ParsePartInput<$day, Part2>>::parse($input); });
-        let input1 = <$year as ParsePartInput<$day, Part1>>::parse($input);
-        let input2 = <$year as ParsePartInput<$day, Part2>>::parse($input);
-        benchmark!("Solving part 1", { <$year as Solution<$day>>::part1(&input1); });
-        benchmark!("Solving part 2", { <$year as Solution<$day>>::part2(&input2); });
-    };
-}
-
-macro_rules! run2021 {
     ($day:ty, $input:expr) => {
         {
-            let (sol1, sol2) = run!(AdventOfCode2021, $day, $input);
-            println!("Part 1: {}\nPart 2: {}", sol1, sol2);
-            benchmark!(AdventOfCode2021, $day, $input);
+            let input1 = <AdventOfCode2021 as ParsePartInput<$day, Part1>>::parse($input);
+            let input2 = <AdventOfCode2021 as ParsePartInput<$day, Part2>>::parse($input);
+            let part1 = <AdventOfCode2021 as Solution<$day>>::part1(&input1);
+            let part2 = <AdventOfCode2021 as Solution<$day>>::part2(&input2);
+            println!("Part 1: {}\nPart 2: {}", part1, part2);
         }
     };
 }
 
 fn run_day(day: usize, input: &str) {
     match day {
-        1 => run2021!(Day1, input),
-        2 => run2021!(Day2, input),
-        3 => run2021!(Day3, input),
-        4 => run2021!(Day4, input),
+        1 => run!(Day1, input),
+        2 => run!(Day2, input),
+        3 => run!(Day3, input),
+        4 => run!(Day4, input),
         _ => unreachable!()
     }
 }
