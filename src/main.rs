@@ -7,6 +7,7 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 
 fn get_day(max: usize) -> usize {
     loop {
@@ -53,6 +54,7 @@ fn run_day(day: usize, input: &str) {
         2 => run!(Day2, input),
         3 => run!(Day3, input),
         4 => run!(Day4, input),
+        5 => run!(Day5, input),
         _ => unreachable!()
     }
 }
@@ -64,6 +66,6 @@ fn main() {
     }
 
     let input = read_input(&args[1]);
-    let day = get_day(4);
+    let day = get_day(5);
     run_day(day, &input);
 }
