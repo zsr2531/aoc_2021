@@ -15,7 +15,7 @@ impl Solution<Day5> for AdventOfCode2021 {
     type Part1Out = usize;
     type Part2Out = usize;
 
-    fn part1(input: Vec<Segment>) -> Self::Part1Out {
+    fn part1(input: &Vec<Segment>) -> Self::Part1Out {
         let mut grid = Grid::new();
 
         input
@@ -42,7 +42,7 @@ impl Solution<Day5> for AdventOfCode2021 {
         grid.count
     }
 
-    fn part2(input: Vec<Segment>) -> Self::Part2Out {
+    fn part2(input: &Vec<Segment>) -> Self::Part2Out {
         let mut grid = Grid::new();
 
         input

@@ -9,7 +9,6 @@ mod day3;
 mod day4;
 mod day5;
 mod day6;
-mod day7;
 
 fn get_day(max: usize) -> usize {
     loop {
@@ -43,8 +42,8 @@ macro_rules! run {
         {
             let input1 = <AdventOfCode2021 as ParsePartInput<$day, Part1>>::parse($input);
             let input2 = <AdventOfCode2021 as ParsePartInput<$day, Part2>>::parse($input);
-            let part1 = <AdventOfCode2021 as Solution<$day>>::part1(input1);
-            let part2 = <AdventOfCode2021 as Solution<$day>>::part2(input2);
+            let part1 = <AdventOfCode2021 as Solution<$day>>::part1(&input1);
+            let part2 = <AdventOfCode2021 as Solution<$day>>::part2(&input2);
             println!("Part 1: {}\nPart 2: {}", part1, part2);
         }
     };
@@ -58,7 +57,6 @@ fn run_day(day: usize, input: &str) {
         4 => run!(Day4, input),
         5 => run!(Day5, input),
         6 => run!(Day6, input),
-        7 => run!(Day7, input),
         _ => unreachable!()
     }
 }
@@ -70,6 +68,6 @@ fn main() {
     }
 
     let input = read_input(&args[1]);
-    let day = get_day(7);
+    let day = get_day(6);
     run_day(day, &input);
 }

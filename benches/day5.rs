@@ -15,8 +15,8 @@ pub fn criterion_benchmark(c: &mut Criterion) {
     let parsed = <AdventOfCode2021 as ParseInput<Day5>>::parse(input);
 
     c.bench_function("day5 parse", |b| b.iter(|| <AdventOfCode2021 as ParseInput<Day5>>::parse(black_box(input))));
-    c.bench_function("day5 part1", |b| b.iter(|| <AdventOfCode2021 as Solution<Day5>>::part1(black_box(parsed.clone()))));
-    c.bench_function("day5 part2", |b| b.iter(|| <AdventOfCode2021 as Solution<Day5>>::part2(black_box(parsed.clone()))));
+    c.bench_function("day5 part1", |b| b.iter(|| <AdventOfCode2021 as Solution<Day5>>::part1(black_box(&parsed))));
+    c.bench_function("day5 part2", |b| b.iter(|| <AdventOfCode2021 as Solution<Day5>>::part2(black_box(&parsed))));
 }
 
 criterion_group!(day5, criterion_benchmark);

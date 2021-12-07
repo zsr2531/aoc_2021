@@ -11,7 +11,6 @@ pub const Day3: u8 = 3;
 pub const Day4: u8 = 4;
 pub const Day5: u8 = 5;
 pub const Day6: u8 = 6;
-pub const Day7: u8 = 7;
 
 pub struct AdventOfCode2021;
 
@@ -32,8 +31,8 @@ where Self: ParsePartInput<Day, Part1> + ParsePartInput<Day, Part2> {
     type Part1Out: Display;
     type Part2Out: Display;
 
-    fn part1(input: <Self as ParsePartInput<Day, Part1>>::Parsed) -> Self::Part1Out;
-    fn part2(input: <Self as ParsePartInput<Day, Part2>>::Parsed) -> Self::Part2Out;
+    fn part1(input: &<Self as ParsePartInput<Day, Part1>>::Parsed) -> Self::Part1Out;
+    fn part2(input: &<Self as ParsePartInput<Day, Part2>>::Parsed) -> Self::Part2Out;
 }
 
 impl<T, const Day: u8> ParsePartInput<Day, Part1> for T

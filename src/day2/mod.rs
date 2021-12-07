@@ -1,6 +1,5 @@
 use crate::common::*;
 
-#[derive(Debug, Clone, Copy)]
 pub enum Command {
     Forward(isize),
     Up(isize),
@@ -11,7 +10,7 @@ impl Solution<Day2> for AdventOfCode2021 {
     type Part1Out = isize;
     type Part2Out = isize;
 
-    fn part1(input: Vec<Command>) -> Self::Part1Out {
+    fn part1(input: &Vec<Command>) -> Self::Part1Out {
         let (hor, dep) = input.iter().fold((0, 0), |(hor, dep), c| {
             match c {
                 Command::Forward(units) => (hor + units, dep),
@@ -23,7 +22,7 @@ impl Solution<Day2> for AdventOfCode2021 {
         hor * dep
     }
 
-    fn part2(input: Vec<Command>) -> Self::Part2Out {
+    fn part2(input: &Vec<Command>) -> Self::Part2Out {
         let (hor, dep, _) = input.iter().fold((0, 0, 0), |(hor, dep, aim), c| {
             match c {
                 Command::Forward(units) => (hor + units, dep + aim * units, aim),
