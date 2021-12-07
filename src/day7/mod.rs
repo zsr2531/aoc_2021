@@ -21,34 +21,23 @@ impl Solution<Day7> for AdventOfCode2021 {
     type Part1Out = isize;
     type Part2Out = isize;
 
-    fn part1(input: &(isize, Vec<isize>)) -> Self::Part1Out {
-        let (mut pos, input) = input;
-        let mut mid = calculate_fuel_part1(pos, &input);
-        loop {
-            let left = calculate_fuel_part1(pos - 1, &input);
-            let right = calculate_fuel_part1(pos + 1, &input);
-
-            if left < mid {
-                mid = left;
-                pos -= 1;
-            } else if right < mid {
-                mid = right;
-                pos += 1;
-            } else {
-                return mid;
-            }
-        }
+    fn part1(input: &Vec<isize>) -> Self::Part1Out {
+        let mut input = input.clone();
+        input.sort();
+        let pos = input[input.len() / 2];
+        calculate_fuel_part1(pos, &input)
     }
 
-    fn part2(input: &(isize, Vec<isize>)) -> Self::Part2Out {
-        let (pos, input) = input;
-        let mid = calculate_fuel_part2(*pos, &input);
-        let left = calculate_fuel_part2(pos - 1, &input);
+    fn part2(input: &Vec<isize>) -> Self::Part2Out {
+        let pos = input.iter().sum::<isize>() / input.len() as isize;
+
+        let mid = calculate_fuel_part2(pos, &input);
+        // let left = calculate_fuel_part2(pos - 1, &input);
         let right = calculate_fuel_part2(pos + 1, &input);
 
-        if left < mid {
-            left
-        } else if right < mid {
+        // if left < mid {
+        //     left
+        if right < mid {
             right
         } else {
             mid
@@ -57,20 +46,12 @@ impl Solution<Day7> for AdventOfCode2021 {
 }
 
 impl ParseInput<Day7> for AdventOfCode2021 {
-    type Parsed = (isize, Vec<isize>);
+    type Parsed = Vec<isize>;
 
     fn parse(input: &str) -> Self::Parsed {
-        let mut sum = 0;
-        let input: Vec<isize> = input
+        input
             .split(',')
-            .map(|n| {
-                let num = n.parse::<isize>().unwrap();
-                sum += num;
-
-                num
-            })
-            .collect();
-
-        (sum / input.len() as isize, input)
+            .map(|n| n.parse::<isize>().unwrap())
+            .collect()
     }
 }
