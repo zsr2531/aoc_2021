@@ -46,11 +46,11 @@ impl Solution<Day7> for AdventOfCode2021 {
     type Part1Out = isize;
     type Part2Out = isize;
 
-    fn part1(input: <Self as ParseInput<Day7>>::Parsed) -> Self::Part1Out {
+    fn part1(input: &(isize, Vec<isize>)) -> Self::Part1Out {
         solve!(calculate_fuel_part1, input)
     }
 
-    fn part2(input: <Self as ParseInput<Day7>>::Parsed) -> Self::Part2Out {
+    fn part2(input: &(isize, Vec<isize>)) -> Self::Part2Out {
         solve!(calculate_fuel_part2, input)
     }
 }
