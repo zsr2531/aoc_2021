@@ -17,41 +17,44 @@ fn calculate_fuel_part2(pos: isize, crabs: &Vec<isize>) -> isize {
         .sum()
 }
 
-macro_rules! solve {
-    ($fuel:ident, $input: expr) => {
-        {
-            let (mut pos, input) = $input;
-            let mut cost = $fuel(pos, &input);
-            loop {
-                let left = $fuel(pos - 1, &input);
-                let right = $fuel(pos + 1, &input);
-
-                if left < cost {
-                    cost = left;
-                    pos -= 1;
-                } else if right < cost {
-                    cost = right;
-                    pos += 1;
-                } else {
-                    break;
-                }
-            }
-
-            cost
-        }
-    };
-}
-
 impl Solution<Day7> for AdventOfCode2021 {
     type Part1Out = isize;
     type Part2Out = isize;
 
     fn part1(input: &(isize, Vec<isize>)) -> Self::Part1Out {
-        solve!(calculate_fuel_part1, input)
+        let (mut pos, input) = input;
+        let mut cost = calculate_fuel_part1(pos, &input);
+        loop {
+            let left = calculate_fuel_part1(pos - 1, &input);
+            let right = calculate_fuel_part1(pos + 1, &input);
+
+            if left < cost {
+                cost = left;
+                pos -= 1;
+            } else if right < cost {
+                cost = right;
+                pos += 1;
+            } else {
+                break;
+            }
+        }
+
+        cost
     }
 
     fn part2(input: &(isize, Vec<isize>)) -> Self::Part2Out {
-        solve!(calculate_fuel_part2, input)
+        let (pos, input) = input;
+        let mid = calculate_fuel_part2(*pos, &input);
+        let left = calculate_fuel_part2(pos - 1, &input);
+        let right = calculate_fuel_part2(pos + 1, &input);
+
+        if left < mid {
+            left
+        } else if right < mid {
+            right
+        } else {
+            mid
+        }
     }
 }
 
