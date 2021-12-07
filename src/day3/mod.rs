@@ -4,12 +4,12 @@ impl Solution<Day3> for AdventOfCode2021 {
     type Part1Out = usize;
     type Part2Out = usize;
 
-    fn part1(input: &(usize, Vec<usize>)) -> Self::Part1Out {
+    fn part1(input: (usize, Vec<usize>)) -> Self::Part1Out {
         let (digits, numbers) = input;
         let mask = usize::MAX >> (64 - digits);
         let threshold = numbers.len() / 2;
 
-        let gamma = (0..*digits)
+        let gamma = (0..digits)
             .fold(0, |num, idx| {
                 let ones = numbers
                     .iter()
@@ -22,10 +22,10 @@ impl Solution<Day3> for AdventOfCode2021 {
         gamma * (!gamma & mask)
     }
 
-    fn part2(input: &(usize, Vec<usize>)) -> Self::Part2Out {
+    fn part2(input: (usize, Vec<usize>)) -> Self::Part2Out {
         let (digits, numbers) = input;
         let (mut oxygen, mut co2) = (numbers.clone(), numbers.clone());
-        for idx in 0..*digits {
+        for idx in 0..digits {
             if oxygen.len() > 1 {
                 let ones = oxygen
                     .iter()

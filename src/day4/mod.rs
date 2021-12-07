@@ -9,7 +9,7 @@ impl Solution<Day4> for AdventOfCode2021 {
     type Part1Out = usize;
     type Part2Out = usize;
 
-    fn part1(input: &(DrawnNumbers, Vec<Board>)) -> Self::Part1Out {
+    fn part1(input: (DrawnNumbers, Vec<Board>)) -> Self::Part1Out {
         let (to_draw, boards) = input;
         let mut drawn = to_draw.iter().map(|n| *n).take(5).collect::<Vec<usize>>();
 
@@ -27,8 +27,8 @@ impl Solution<Day4> for AdventOfCode2021 {
         unreachable!("No solution found!");
     }
 
-    fn part2(input: &(DrawnNumbers, Vec<Board>)) -> Self::Part2Out {
-        let (mut drawn, boards) = (*input).clone();
+    fn part2(input: (DrawnNumbers, Vec<Board>)) -> Self::Part2Out {
+        let (mut drawn, boards) = input;
 
         while let Some(last) = drawn.pop() {
             if let Some(loser) = boards.iter().find(|b| !b.is_winner(&drawn)) {

@@ -17,13 +17,13 @@ impl Solution<Day6> for AdventOfCode2021 {
     type Part1Out = usize;
     type Part2Out = usize;
 
-    fn part1(input: &Vec<usize>) -> Self::Part1Out {
-        solve(80, input.clone())
+    fn part1(input: Vec<usize>) -> Self::Part1Out {
+        solve(80, input)
     }
 
     // ngl, part 2 got me :(
-    fn part2(input: &Vec<usize>) -> Self::Part2Out {
-        solve(256, input.clone())
+    fn part2(input: Vec<usize>) -> Self::Part2Out {
+        solve(256, input)
     }
 }
 

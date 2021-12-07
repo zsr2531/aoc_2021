@@ -4,7 +4,7 @@ impl Solution<Day1> for AdventOfCode2021 {
     type Part1Out = usize;
     type Part2Out = usize;
 
-    fn part1(input: &Vec<i32>) -> Self::Part1Out {
+    fn part1(input: Vec<i32>) -> Self::Part1Out {
         input
             .iter()
             .zip(input.iter().skip(1))
@@ -12,7 +12,7 @@ impl Solution<Day1> for AdventOfCode2021 {
             .count()
     }
 
-    fn part2(input: &Vec<i32>) -> Self::Part2Out {
+    fn part2(input: Vec<i32>) -> Self::Part2Out {
         input
             .iter()
             .zip(input.iter().skip(3))
