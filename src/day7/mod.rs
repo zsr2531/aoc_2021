@@ -23,23 +23,21 @@ impl Solution<Day7> for AdventOfCode2021 {
 
     fn part1(input: &(isize, Vec<isize>)) -> Self::Part1Out {
         let (mut pos, input) = input;
-        let mut cost = calculate_fuel_part1(pos, &input);
+        let mut mid = calculate_fuel_part1(pos, &input);
         loop {
             let left = calculate_fuel_part1(pos - 1, &input);
             let right = calculate_fuel_part1(pos + 1, &input);
 
-            if left < cost {
-                cost = left;
+            if left < mid {
+                mid = left;
                 pos -= 1;
-            } else if right < cost {
-                cost = right;
+            } else if right < mid {
+                mid = right;
                 pos += 1;
             } else {
-                break;
+                return mid;
             }
         }
-
-        cost
     }
 
     fn part2(input: &(isize, Vec<isize>)) -> Self::Part2Out {
